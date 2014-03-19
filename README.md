@@ -18,25 +18,15 @@ For each column, the number of "holes" (the number of empty spaces) is counted. 
 #### Blocks Above Holes ####
 Returns the sum of the number of blocks above the first "hole" in each column
 #### Consec Horz Holes ####
-
 #### Height Avg ####
-
 #### Height Max ####
-
 #### Height Min Max ####
-
 #### Height Standard Dev ####
-
 #### Height Var ####
-
 #### Rows With Holes in Most Holed Column ####
-
 #### Simple Holes ####
-
 #### Three Variance ####
-
 #### Through ####
-
 #### Weighted Holes ####
 
 ### Move ###
