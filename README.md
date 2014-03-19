@@ -39,7 +39,6 @@ Returns the sum of the number of blocks above the first "hole" in each column
 
 #### Weighted Holes ####
 
->>>>>>> Temporary merge branch 2
 ### Move ###
 - Move.piece should be the orientation we want to rotate the piece
 - Move.x and Move.y should be the position of the center of the piece, however only Move.x is used to translate the piece
