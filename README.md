@@ -10,6 +10,34 @@ Keep in mind these notes are a result of my analysis, so they could be wrong
     where it distributes the moves over ticks in order of ROTATION, and then TRANSLATION
 - Iterates through every rotation, then every column
 - Uses a BoardRater to rate the resultant board, then chooses the Move with the lowest (best) score
+#### Heuristics ####
+This section will elaborate on the various heuristics the included AI uses to rate a given tetris board.
+#### Average Squared Trough Height ####
+Returns the largest number of holes per column.
+For each column, the number of "holes" (the number of empty spaces) is counted. The largest sum is returned.
+#### Blocks Above Holes ####
+Returns the sum of the number of blocks above the first "hole" in each column
+#### Consec Horz Holes ####
+
+#### Height Avg ####
+
+#### Height Max ####
+
+#### Height Min Max ####
+
+#### Height Standard Dev ####
+
+#### Height Var ####
+
+#### Rows With Holes in Most Holed Column ####
+
+#### Simple Holes ####
+
+#### Three Variance ####
+
+#### Through ####
+
+#### Weighted Holes ####
 
 ### Move ###
 - Move.piece should be the orientation we want to rotate the piece
