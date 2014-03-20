@@ -38,9 +38,14 @@ public Move bestMove(Board board, Piece piece, Piece nextPiece, int limitHeight)
 				if ((y < yBound) && board.canPlace(current, x, y)) {
 					Board testBoard = new Board(board);
 					testBoard.place(current, x, y);
-					testBoard.clearRows();
+                    int rowsCleared = testBoard.clearRows();
+                    if(nextPiece != null) {
+                        Move m = bestMove(testBoard, nextPiece, null, limitHeight);
+                        testBoard.place(m);
+                        rowsCleared += testBoard.clearRows();
+                    }
 
-					double score = boardRater.rateBoard(testBoard);
+                    double score = boardRater.rateBoard(testBoard) - rowsCleared * 16;
 
 					if (score < bestScore) {
 						bestScore = score;
