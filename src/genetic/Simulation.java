@@ -27,7 +27,7 @@ public class Simulation {
         long startTime = System.currentTimeMillis();
         int best = 0;
         while(best < desiredFitness && System.currentTimeMillis() - startTime < cutoffTime) {
-            System.out.println("Generation: " + generationCount);
+            System.out.println("Generation: " + generationCount++);
             best = runGen(generation[0], generation[1], startTime, random);
             System.out.println("Best score: " + best + " @ " + generation[0]);
             System.out.println("Collecting garbage");

@@ -13,9 +13,9 @@ import java.util.Random;
 public class Offspring {
 
     public static final int numTraits = 13;
-    public static double mutationFrequency = 5D / numTraits;
-    public static int mutationSpan = 5;
-    public static int numTests = 5;
+    public static double mutationFrequency = 1D / numTraits;
+    public static int mutationSpan = 16;
+    public static int numTests = 4;
 
     public final double[] traits;
 

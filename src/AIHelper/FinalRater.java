@@ -31,19 +31,19 @@ public class FinalRater extends BoardRater {
  };
  
   public double[] coefficients = {
-/*new ConsecHorzHoles(),*/                0,  
-/*new HeightAvg(),*/                      10,
+/*new ConsecHorzHoles(),*/                1,
+/*new HeightAvg(),*/                      -1,
 /*new HeightMax(),*/                      1,
 /*new HeightMinMax(),*/                   1,
-/*new HeightVar(),*/                      0,
-/*new HeightStdDev(),*/                   5,
-/*new SimpleHoles(),*/                    40,
-/*new ThreeVariance(),*/                  10,
-/*new Trough(),*/                         1,
-/*new WeightedHoles(),*/                  4,
-/*new RowsWithHolesInMostHoledColumn()*/  4,
-/*new AverageSquaredTroughHeight()*/      15,
-/*new BlocksAboveHoles()*/                2
+/*new HeightVar(),*/                      1,
+/*new HeightStdDev(),*/                   -2,
+/*new SimpleHoles(),*/                    0,
+/*new ThreeVariance(),*/                  1,
+/*new Trough(),*/                         0,
+/*new WeightedHoles(),*/                  2,
+/*new RowsWithHolesInMostHoledColumn()*/  -1,
+/*new AverageSquaredTroughHeight()*/      3,
+/*new BlocksAboveHoles()*/                0
   };
    
  public FinalRater() {
