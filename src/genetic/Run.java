@@ -1,12 +1,17 @@
 package genetic;
 
-/**
- * Created by Alec on 3/19/2014.
- */
+import java.util.Random;
+
 public class Run {
 
     public static void main(String[] args) {
-
+        double[] dna1 = new double[13];
+        double[] dna2 = new double[13];
+        for(int i = 0; i < 13; i++)
+            dna1[i] = dna2[i] = 1;
+        Simulation simulation = new Simulation(1000, 1000 * 600, 26, dna1, dna2);
+        Offspring o = simulation.startSimulation(new Random());
+        System.out.println(o);
     }
 
 }

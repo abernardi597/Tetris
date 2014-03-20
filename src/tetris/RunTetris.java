@@ -6,29 +6,14 @@
 
 package tetris;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
-import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -52,7 +37,7 @@ public class RunTetris extends JComponent {
         protected JLabel difficulty;  
 	
         // milliseconds per tick
-	public final int DELAY = 400;	
+	public final int DELAY = 400;
 	
         // used to measure elapsed time
 	protected long startTime;	
@@ -99,7 +84,7 @@ public class RunTetris extends JComponent {
 	 so the game is happening.
 	*/
 	public void startGame() {
-		tc.startGame();
+		//tc.startGame();
 			
 		// draw the new board state once
 		repaint();
@@ -387,9 +372,9 @@ public class RunTetris extends JComponent {
 		// START button
 		startButton = new JButton("Start");
 		panel.add(startButton);
-		startButton.addActionListener( new ActionListener() 
+		startButton.addActionListener( new ActionListener()
                 {
-			public void actionPerformed(ActionEvent e) 
+			public void actionPerformed(ActionEvent e)
                         {
 				startGame();
 			}

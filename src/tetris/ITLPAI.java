@@ -63,7 +63,7 @@ public Move bestMove(Board board, Piece piece, Piece nextPiece, int limitHeight)
 
     @Override
     public void setRater(BoardRater r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boardRater = r;
     }
     
 }
