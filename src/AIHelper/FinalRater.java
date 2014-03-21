@@ -29,21 +29,21 @@ public class FinalRater extends BoardRater {
     new AverageSquaredTroughHeight(),
     new BlocksAboveHoles()
  };
- 
+ //13.0, -9.0, 19.0, 1.0, 11.0, 1.0, 16.0, 14.0, 7.0, 0.0, -7.0, 17.0, 1.0 Best: 147420
   public double[] coefficients = {
-/*new ConsecHorzHoles(),*/                1,
-/*new HeightAvg(),*/                      -1,
-/*new HeightMax(),*/                      1,
+/*new ConsecHorzHoles(),*/                13,
+/*new HeightAvg(),*/                      -9,
+/*new HeightMax(),*/                      19,
 /*new HeightMinMax(),*/                   1,
-/*new HeightVar(),*/                      1,
-/*new HeightStdDev(),*/                   -2,
-/*new SimpleHoles(),*/                    0,
-/*new ThreeVariance(),*/                  1,
-/*new Trough(),*/                         0,
-/*new WeightedHoles(),*/                  2,
-/*new RowsWithHolesInMostHoledColumn()*/  -1,
-/*new AverageSquaredTroughHeight()*/      3,
-/*new BlocksAboveHoles()*/                0
+/*new HeightVar(),*/                      11,
+/*new HeightStdDev(),*/                   1,
+/*new SimpleHoles(),*/                    16,
+/*new ThreeVariance(),*/                  14,
+/*new Trough(),*/                         7,
+/*new WeightedHoles(),*/                  0,
+/*new RowsWithHolesInMostHoledColumn()*/  -7,
+/*new AverageSquaredTroughHeight()*/      17,
+/*new BlocksAboveHoles()*/                1
   };
    
  public FinalRater() {

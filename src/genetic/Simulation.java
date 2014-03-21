@@ -33,7 +33,7 @@ public class Simulation {
             System.out.println("Collecting garbage");
             System.gc();
             System.out.println("Done");
-            System.out.println("------------------------------");
+            System.out.println("------------------------------------");
         }
         return generation[0];
     }
@@ -97,8 +97,8 @@ public class Simulation {
             //Sleep a little to give the simulations time to work
             synchronized(this) {
                 try {
-                    wait(5000);
-                    System.out.println("Waiting for " + waitingFor + " threads...");
+                    wait(1000);
+                    System.out.println("Waiting for " + waitingFor + " games...");
                 } catch (Exception ignored) {
                     ignored.printStackTrace();
                 }
