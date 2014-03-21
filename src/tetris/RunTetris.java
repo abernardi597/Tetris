@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 
 /**
  *
@@ -38,7 +37,7 @@ public class RunTetris extends JComponent {
         protected JLabel difficulty;  
 	
         // milliseconds per tick
-	public final int DELAY = 400;
+	public final int DELAY = 400;	
 	
         // used to measure elapsed time
 	protected long startTime;	
@@ -85,7 +84,7 @@ public class RunTetris extends JComponent {
 	 so the game is happening.
 	*/
 	public void startGame() {
-		tc.startGame(new Random());
+		tc.startGame();
 			
 		// draw the new board state once
 		repaint();
@@ -373,9 +372,9 @@ public class RunTetris extends JComponent {
 		// START button
 		startButton = new JButton("Start");
 		panel.add(startButton);
-		startButton.addActionListener( new ActionListener()
+		startButton.addActionListener( new ActionListener() 
                 {
-			public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e) 
                         {
 				startGame();
 			}

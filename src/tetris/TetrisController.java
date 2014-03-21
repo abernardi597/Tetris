@@ -153,10 +153,10 @@ public class TetrisController {
      * sets the intial state and starts the timer
      * 
      */
-    public void startGame(Random rng)
+    public void startGame()
     {
         //different sequence each game
-        random = rng;
+        random = new Random();
   
         
         //reset the baord state
