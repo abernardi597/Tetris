@@ -27,12 +27,14 @@ public class FinalRater extends BoardRater {
     new WeightedHoles(),
     new RowsWithHolesInMostHoledColumn(),
     new AverageSquaredTroughHeight(),
-    new BlocksAboveHoles()
+    new BlocksAboveHoles(),
+    new WeightedHeight(),
+    new Roughness()
  };
  
   public double[] coefficients = {
 /*new ConsecHorzHoles(),*/                0,  
-/*new HeightAvg(),*/                      10,
+/*new HeightAvg(),*/                      -19,
 /*new HeightMax(),*/                      1,
 /*new HeightMinMax(),*/                   1,
 /*new HeightVar(),*/                      0,
@@ -43,7 +45,9 @@ public class FinalRater extends BoardRater {
 /*new WeightedHoles(),*/                  4,
 /*new RowsWithHolesInMostHoledColumn()*/  4,
 /*new AverageSquaredTroughHeight()*/      15,
-/*new BlocksAboveHoles()*/                2
+/*new BlocksAboveHoles()*/                2,
+/*new WeightedHeight()*/                  1,
+/*new Roughness()*/                       0
   };
    
  public FinalRater() {
