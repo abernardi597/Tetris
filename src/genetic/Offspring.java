@@ -89,6 +89,11 @@ public class Offspring {
      * @return The new traits in the form of a <tt>double[]</tt>
      */
     public static double[] mate(Offspring parent1, Offspring parent2, Random random) {
+        if(parent2.fitness < (3*parent1.fitness)/4)
+        {
+            //If parent two is less than 3/4ths as fit as parent one it uses two parent ones
+            parent2.useTraits(parent1.traits);
+        }
         double[] newTraits = new double[numTraits];
         for(int i = 0; i < numTraits; i++) {
             double newTrait = random.nextBoolean() ? parent1.traits[i] : parent2.traits[i];

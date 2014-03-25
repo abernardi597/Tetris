@@ -13,17 +13,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
+import java.util.Random;
 
 public class Run {
 
     public static void main(String[] args) {
 
-        double[] dna1 = new double[Offspring.numTraits];
-        double[] dna2 = new double[Offspring.numTraits];
-        for(int i = 0; i < Offspring.numTraits; i++)
-            dna1[i] = dna2[i] = 0;
-        //System.out.println(Simulation.runSimulation(5000, 10, dna1, dna2, new Random()));
-        runGui(dna1);
+      double[] dna1 = new double[Offspring.numTraits];
+      double[] dna2 = new double[Offspring.numTraits];
+           for(int i = 0; i < Offspring.numTraits; i++)
+            dna1[i] = dna2[i] = 1;
+        // (Desired Fitness, Total Threads)
+        System.out.println(Simulation.runSimulation(50000, 10, dna1, dna2, new Random()));
+        //runNoGui(dna1);
     }
 
     public static void runNoGui(double... vals) {
