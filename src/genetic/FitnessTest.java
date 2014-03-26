@@ -1,10 +1,11 @@
 package genetic;
 
-import AIHelper.BoardRater;
 import AIHelper.FinalRater;
-import tetris.*;
+import tetris.ITLPAI;
 
-public class FitnessTest implements Runnable {
+import javax.swing.*;
+
+public class FitnessTest extends JPanel implements Runnable {
 
     /**
      * The number of trials to perform in a test. The
@@ -16,7 +17,11 @@ public class FitnessTest implements Runnable {
      */
     private final Offspring subject;
     /**
-     * Whether the testing is complete.
+     * The instance of MiniTetris that this will use to test the subject.
+     */
+    private final MiniTetris tetris;
+    /**
+     * Whether the testing is complete or not.
      */
     private boolean done;
     /**
@@ -34,7 +39,8 @@ public class FitnessTest implements Runnable {
      */
     public FitnessTest(Offspring sub) {
         subject = sub;
-        clear();
+        tetris = new MiniTetris(new ITLPAI());
+        add(tetris);
     }
 
     /**
@@ -70,40 +76,20 @@ public class FitnessTest implements Runnable {
     public void run() {
         clear();
         //Run the tests
-        BoardRater rater = new FinalRater(subject.traits);
-        double totalRows = 0;
+        tetris.setRater(new FinalRater(subject.traits));
+        float totalRows = 0;
         while(completedTrials < numberTrials) {
-            runSingleTest(rater);
+            tetris.startGame();
+            while(tetris.running()) {
+                tetris.tick();
+                rowsCleared = tetris.getRowsCleared();
+            }
             totalRows += rowsCleared;
             rowsCleared = 0;
             completedTrials++;
         }
-        subject.fitness = rowsCleared = (int) (totalRows / numberTrials);
+        subject.fitness = rowsCleared = Math.round(totalRows / numberTrials);
         done = true;
-    }
-
-    private void runSingleTest(BoardRater rater) {
-        AI mBrain = new ITLPAI();
-        mBrain.setRater(rater);
-        int current_count = -1;
-        Move mMove = null;
-        TetrisController tc = new TetrisController();
-        tc.startGame();
-        while(tc.gameOn) {
-            if (current_count != tc.count) {
-                current_count = tc.count;
-                mMove = mBrain.bestMove(new Board(tc.board), tc.currentMove.piece, tc.nextPiece, tc.board.getHeight()-TetrisController.TOP_SPACE);
-            }
-
-            if (!tc.currentMove.piece.equals(mMove.piece)) {
-                tc.tick(TetrisController.ROTATE);
-            } else if (tc.currentMove.x != mMove.x) {
-                tc.tick(((tc.currentMove.x < mMove.x) ? TetrisController.RIGHT : TetrisController.LEFT));
-            } else {
-                tc.tick(TetrisController.DOWN);
-            }
-            rowsCleared = tc.rowsCleared;
-        }
     }
 
 }

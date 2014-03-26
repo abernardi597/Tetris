@@ -1,10 +1,7 @@
 package genetic;
 
 import AIHelper.FinalRater;
-import tetris.AI;
-import tetris.RunTetris;
-import tetris.RunTetrisAI;
-import tetris.TetrisController;
+import tetris.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,16 +10,59 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Run {
 
     public static void main(String[] args) {
+        //runNoGui(12.0, 3.0, 8.0, -4.0, 15.0, -7.0, 7.0, 2.0, -7.0, -9.0, -3.0, 9.0, 0.0);
+        //simulateNoGui();
+        //runGui(12.0, 3.0, 8.0, -4.0, 15.0, -7.0, 7.0, 2.0, -7.0, -9.0, -3.0, 9.0, 0.0);
+        //runNoGui(8.0, 2.0, 4.0, 0.0, 11.0, -9.0, 5.0, 3.0, -4.0, -10.0, -2.0, 8.0, 0.0);
+    }
 
+    public static void runMiniTetris(double[] d) {
+        JFrame frame = new JFrame("MiniTetris");
+        frame.getContentPane().setLayout(new BorderLayout());
+        AI ai = new ITLPAI();
+        ai.setRater(new FinalRater(d));
+        final MiniTetris tetris = new MiniTetris(ai);
+        frame.add(tetris, BorderLayout.CENTER);
+        JLabel rows = new JLabel("Rows: 0");
+        JLabel count = new JLabel("Pieces: 0");
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(rows, BorderLayout.NORTH);
+        panel.add(count, BorderLayout.SOUTH);
+        frame.add(panel, BorderLayout.SOUTH);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        tetris.startGame();
+        while(true) {
+            tetris.tick();
+            rows.setText("Rows: " + tetris.getRowsCleared());
+            count.setText("Count: " + tetris.getCount());
+        }
+    }
+
+    public static void simulateThenGui() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Desired Fitness: ");
+        int fitness = scan.nextInt();
+        System.out.print("Generation Size: ");
+        int genSize = scan.nextInt();
+        System.out.print("Number of Trials: ");
+        FitnessTest.numberTrials = scan.nextInt();
         double[] dna1 = new double[Offspring.numTraits];
         double[] dna2 = new double[Offspring.numTraits];
-        for(int i = 0; i < Offspring.numTraits; i++)
-            dna1[i] = dna2[i] = 0;
-        //System.out.println(Simulation.runSimulation(5000, 10, dna1, dna2, new Random()));
+        for(int i = 0; i < dna1.length; i++)
+            dna1[i] = scan.nextDouble();
+        for(int i = 0; i < dna2.length; i++)
+            dna2[i] = scan.nextDouble();
+        dna1 = Simulation.runSimulation(fitness, genSize, dna1, dna2, new Random()).traits;
         runGui(dna1);
     }
 
@@ -64,7 +104,6 @@ public class Run {
             e.printStackTrace();
             System.exit(-1);
         }
-
         container.add(tetris, BorderLayout.CENTER);
 
         Container panel = tetris.createControlPanel();

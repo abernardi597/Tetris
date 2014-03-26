@@ -15,7 +15,7 @@ import java.awt.Point;
  */
 public class DisplayBoard extends Board {
     
-    Color[][] colorGrid;
+    public Color[][] colorGrid;
     
     public DisplayBoard(int width, int height)
     {
