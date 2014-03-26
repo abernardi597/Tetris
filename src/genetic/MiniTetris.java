@@ -22,8 +22,8 @@ public class MiniTetris extends JComponent {
     public MiniTetris(AI ai) {
         tetris = new TetrisController();
         this.ai = ai;
-        int prefWidth = tetris.displayBoard.getWidth() * combinedCell + cellPadding;
-        int prefHeight = tetris.displayBoard.getHeight() * combinedCell + cellPadding;
+        int prefWidth = tetris.board.getWidth() * combinedCell + cellPadding;
+        int prefHeight = tetris.board.getHeight() * combinedCell + cellPadding;
         setPreferredSize(new Dimension(prefWidth, prefHeight));
         //play();
     }
@@ -31,13 +31,13 @@ public class MiniTetris extends JComponent {
     public void paintComponent(Graphics g) {
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
-        int spaceY = TetrisController.TOP_SPACE;
+        int spaceY = TetrisController.TOP_SPACE + 1;
         spaceY *= combinedCell;
         g.setColor(Color.white);
         g.drawLine(0, spaceY, getWidth(), spaceY);
         //Draw blocks
-        for(int x = 0; x < tetris.displayBoard.getWidth(); x++)
-            for(int y = 0; y < tetris.displayBoard.getColumnHeight(x); y++)
+        for(int x = 0; x < tetris.board.getWidth(); x++)
+            for(int y = 0; y < tetris.board.getColumnHeight(x); y++)
                 if(tetris.board.getGrid(x, y)) {
                     g.setColor(tetris.board.colorGrid[x][y]);
                     g.fillRect(cellPadding + x * combinedCell, cellPadding + (tetris.board.getHeight() - y) * combinedCell, cellSize, cellSize);
@@ -50,9 +50,8 @@ public class MiniTetris extends JComponent {
 
     public void tick() {
         Move bestMove = ai.bestMove(new Board(tetris.board), tetris.currentMove.piece, tetris.nextPiece, tetris.board.getHeight() - TetrisController.TOP_SPACE);
-        bestMove.y++;
-        tetris.currentMove = bestMove;
-        tetris.tick(TetrisController.DOWN);
+        if(bestMove.x >= 0 && bestMove.y >= 0)
+            tetris.currentMove = bestMove;
         tetris.tick(TetrisController.DOWN);
         paint(getGraphics());
     }

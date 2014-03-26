@@ -16,10 +16,6 @@ import java.util.Scanner;
 public class Run {
 
     public static void main(String[] args) {
-        //runNoGui(12.0, 3.0, 8.0, -4.0, 15.0, -7.0, 7.0, 2.0, -7.0, -9.0, -3.0, 9.0, 0.0);
-        //simulateNoGui();
-        //runGui(12.0, 3.0, 8.0, -4.0, 15.0, -7.0, 7.0, 2.0, -7.0, -9.0, -3.0, 9.0, 0.0);
-        //runNoGui(8.0, 2.0, 4.0, 0.0, 11.0, -9.0, 5.0, 3.0, -4.0, -10.0, -2.0, 8.0, 0.0);
     }
 
     public static void runMiniTetris(double[] d) {
@@ -41,7 +37,7 @@ public class Run {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         tetris.startGame();
-        while(true) {
+        while(tetris.running()) {
             tetris.tick();
             rows.setText("Rows: " + tetris.getRowsCleared());
             count.setText("Count: " + tetris.getCount());

@@ -21,8 +21,8 @@ BoardRater boardRater = new FinalRater();
 public Move bestMove(Board board, Piece piece, Piece nextPiece, int limitHeight) 
 {
 		double bestScore = 1e20;
-		int bestX = 0;
-		int bestY = 0;
+		int bestX = -1;
+		int bestY = -1;
 		Piece bestPiece = piece;
 		Piece current = piece;
 
