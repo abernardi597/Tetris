@@ -18,30 +18,18 @@ public class Run {
     public static void main(String[] args) {
     }
 
-    public static void runMiniTetris(double[] d) {
+    public static void runMiniTetris(double... d) {
         JFrame frame = new JFrame("MiniTetris");
         frame.getContentPane().setLayout(new BorderLayout());
-        AI ai = new ITLPAI();
-        ai.setRater(new FinalRater(d));
-        final MiniTetris tetris = new MiniTetris(ai);
-        frame.add(tetris, BorderLayout.CENTER);
-        JLabel rows = new JLabel("Rows: 0");
-        JLabel count = new JLabel("Pieces: 0");
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(rows, BorderLayout.NORTH);
-        panel.add(count, BorderLayout.SOUTH);
-        frame.add(panel, BorderLayout.SOUTH);
+        FitnessTest test = new Offspring().useTraits(d).tester;
+        frame.add(test);
         frame.pack();
-        frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setVisible(true);
-        tetris.startGame();
-        while(tetris.running()) {
-            tetris.tick();
-            rows.setText("Rows: " + tetris.getRowsCleared());
-            count.setText("Count: " + tetris.getCount());
-        }
+        Thread run = new Thread(test);
+        run.start();
     }
 
     public static void simulateThenGui() {

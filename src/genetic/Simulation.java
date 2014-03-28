@@ -1,5 +1,7 @@
 package genetic;
 
+import javax.swing.*;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,14 +12,15 @@ public class Simulation {
      * The number of FitnessTests that should be run simultaneously
      */
     public static int batchSize = 5;
-
     /**
      * In the selection process, if the less fit of the two "winners" has a fitness less than this percentage of the more
      * fit, then both parents will become the more fit parent.
      */
     public static double parentPercentageOverride = .75;
-
-    private static DecimalFormat formatter = new DecimalFormat("#.##");
+    /**
+     * The DecimalFormat for the time (output to console).
+     */
+    public static DecimalFormat formatter = new DecimalFormat("#.##");
 
     /**
      * Runs the genetic algorithm to generate a Offspring that has a fitness level higher than <tt>desiredFitness</tt>.
@@ -29,6 +32,13 @@ public class Simulation {
      * @return The Offspring that has surpassed the <tt>desiredFitness</tt>
      */
     public static Offspring runSimulation(int desiredFitness, int generationSize, double[] traits1, double[] traits2, Random random) {
+        //Swing stuff
+        JFrame frame = new JFrame("Simulation");
+        frame.getContentPane().setLayout(new FlowLayout());
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         Offspring[] generation = new Offspring[generationSize];
         //Set our initial generation
         generation[0] = new Offspring().useTraits(traits1);
@@ -45,7 +55,7 @@ public class Simulation {
             populate(generation, generation[0], generation[1], random);
             System.out.println("\tGeneration Populated!");
             System.out.println("\tTesting Offspring...");
-            calculateGenerationFitness(generation);
+            calculateGenerationFitness(generation, frame);
             generation = sort(generation);
             naturallySelect(generation);
             System.out.println("\tDone in " + formatter.format((System.currentTimeMillis() - startTime) / 1000D) + "s");
@@ -59,19 +69,20 @@ public class Simulation {
      * Calculates the fitness of each individual in the generation by putting it through a series of Tetris games. The
      * average number of rows cleared is the fitness.
      * @param generation The generation to compute
+     * @param frame The JFrame to render the tests to
      */
-    private static void calculateGenerationFitness(Offspring[] generation) {
+    private static void calculateGenerationFitness(Offspring[] generation, JFrame frame) {
         int numDone = 0;
         int lastNumDone = -1;
         int index = 0;
         int highest = 0;
         ArrayList<Integer> running = new ArrayList<Integer>();
-        long[] starts = new long[generation.length];
         while(numDone < generation.length) {
 
             //Check running processes
             for(int i = 0; i < running.size(); i++) {
-                Offspring sub = generation[running.get(i)];
+                int subIndex = running.get(i);
+                Offspring sub = generation[subIndex];
                 if(sub.tester.isDone()) {
                     System.out.print("\t\t\t");
                     if(sub.fitness > highest) {
@@ -79,17 +90,24 @@ public class Simulation {
                         System.out.print("New Best: ");
                     } else
                         System.out.print("Finished: ");
-                    String time = formatter.format((System.currentTimeMillis() - starts[running.get(i)]) / 1000D);
-                    System.out.println(String.format("%d in %ss (Thread %d)", sub.fitness, time, running.get(i)));
+                    String time = formatter.format(sub.tester.runtime() / 1000D);
+                    System.out.println(String.format("%d in %ss (Thread %d)", sub.fitness, time, subIndex));
+                    frame.remove(sub.tester);
+                    frame.pack();
+                    frame.setLocationRelativeTo(null);
                     running.remove(i);
                     numDone++;
                 }
             }
             //Guarantee that at most batchSize threads are running
             while(running.size() < batchSize && index < generation.length) {
+                generation[index].tester.updateThreadLabel(index);
                 constructThread(generation[index]).start();
-                starts[index] = System.currentTimeMillis();
-                running.add(index++);
+                running.add(index);
+                frame.add(generation[index].tester);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                index++;
             }
             if(numDone >= generation.length)
                 break;

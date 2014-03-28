@@ -12,7 +12,7 @@ import java.awt.*;
 public class MiniTetris extends JComponent {
 
     public static final Color backgroundColor = new Color(0x2B2B2B);
-    public static int cellSize = 7;
+    public static int cellSize = 10;
     public static int cellPadding = 1;
     public static int combinedCell = cellSize + cellPadding;
 
