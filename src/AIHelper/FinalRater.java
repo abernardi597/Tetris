@@ -31,7 +31,8 @@ public class FinalRater extends BoardRater {
     new RowsWithOneHole(),
     new Stairs(),
     new Roughness(),
-    new WeightedHeight()
+    new WeightedHeight(),
+    new Valleys()
  };
  
   public double[] coefficients = {
@@ -52,7 +53,7 @@ public class FinalRater extends BoardRater {
 /*new Stairs */                           2,
 /*new Roughness*/                         1,
 /*new WeightedHeight()*/                  1,
-
+/*new Valleys()*/                         1
   };
    
  public FinalRater() {
