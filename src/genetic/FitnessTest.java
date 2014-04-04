@@ -5,8 +5,6 @@ import tetris.ITLPAI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class FitnessTest extends JPanel implements Runnable {
 
@@ -14,11 +12,6 @@ public class FitnessTest extends JPanel implements Runnable {
      * The number of trials to perform in a test. The
      */
     public static int numberTrials = 5;
-
-    /**
-     * Nineteen hours in milliseconds. Used to subtract from the running time of the simulation.
-     */
-    public static long nineteenHours = 1000 * 60 * 60 * 19;
 
     /**
      * The test subject for this FitnessTest.
@@ -48,10 +41,6 @@ public class FitnessTest extends JPanel implements Runnable {
      * The time that this test started.
      */
     private long startTime;
-    /**
-     * Used to format the timer. The only reason that this is not static is because it is not thread-safe.
-     */
-    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss:SS");
 
     //Swing components
     private final JLabel timeLabel;
@@ -111,7 +100,7 @@ public class FitnessTest extends JPanel implements Runnable {
      * Updates the labels.
      */
     public void updateLabels() {
-        timeLabel.setText(timeFormat.format(new Date(runtime() - nineteenHours)));
+        timeLabel.setText(getTimeString(runtime()));
         countLabel.setText("Pieces: " + tetris.getCount());
         rowLabel.setText("Rows:   " + rowsCleared);
         averageLabel.setText("Avg:    " + Math.round((float) totalRows / numberTrials));
@@ -167,4 +156,20 @@ public class FitnessTest extends JPanel implements Runnable {
         done = true;
     }
 
+    /**
+     * Creates a String that shows the time in the format "HH:mm:ss:MMMM". Unable to use SimpleDateFormatter because the
+     * hour rolls over after 24.
+     * @param time The time in milliseconds
+     * @return The formatted String.
+     */
+    private static String getTimeString(long time) {
+        int ms = (int) time % 1000;
+        time /= 1000;
+        int secs = (int) time % 60;
+        time /= 60;
+        int mins = (int) time % 60;
+        time /= 60;
+        int hrs = (int) time;
+        return String.format("%d:%02d:%02d:%03d", hrs, mins, secs, ms);
+    }
 }

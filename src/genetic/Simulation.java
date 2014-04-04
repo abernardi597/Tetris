@@ -54,6 +54,8 @@ public class Simulation {
                 System.out.println("\t\t" + generation[i]);
             populate(generation, generation[0], generation[1], random);
             System.out.println("\tGeneration Populated!");
+            for(Offspring o : generation)
+                System.out.println("\t\t" + o);
             System.out.println("\tTesting Offspring...");
             calculateGenerationFitness(generation, frame);
             generation = sort(generation);
@@ -114,7 +116,8 @@ public class Simulation {
             if(lastNumDone != numDone)
                 System.out.println("\t\t" + (generation.length - numDone) + " threads remaining");
             lastNumDone = numDone;
-            doWait(1000);
+            doWait(10000);
+            System.gc();
         }
     }
 

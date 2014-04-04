@@ -18,7 +18,7 @@ public class Offspring {
     /**
      * Probability that any trait will mutate.
      */
-    public static double mutationFrequency = 1D / numTraits;
+    public static double mutationFrequency = .5;
     /**
      * How different a mutated trait will become from the original.
      */
