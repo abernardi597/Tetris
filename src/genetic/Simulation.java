@@ -13,8 +13,8 @@ public class Simulation {
      */
     public static int batchSize = 5;
     /**
-     * In the selection process, if the less fit of the two "winners" has a fitness less than this percentage of the more
-     * fit, then both parents will become the more fit parent.
+     * In the selection process, this percentage is used to determine which offspring are fit enough to compete and remain
+     * in the generation.
      */
     public static double parentPercentageOverride = .75;
     /**
@@ -54,8 +54,8 @@ public class Simulation {
                 System.out.println("\t\t" + generation[i]);
             populate(generation, generation[0], generation[1], random);
             System.out.println("\tGeneration Populated!");
-            for(Offspring o : generation)
-                System.out.println("\t\t" + o);
+            for(int i = 0; i < generationSize; i++)
+                System.out.println(String.format("%d\t\t", i) + generation[i]);
             System.out.println("\tTesting Offspring...");
             calculateGenerationFitness(generation, frame);
             generation = sort(generation);
@@ -97,7 +97,7 @@ public class Simulation {
                     frame.remove(sub.tester);
                     frame.pack();
                     frame.setLocationRelativeTo(null);
-                    running.remove(i);
+                    running.remove(i--);
                     numDone++;
                 }
             }
@@ -116,8 +116,9 @@ public class Simulation {
             if(lastNumDone != numDone)
                 System.out.println("\t\t" + (generation.length - numDone) + " threads remaining");
             lastNumDone = numDone;
-            doWait(10000);
+            long then = System.currentTimeMillis();
             System.gc();
+            doWait(1000 - (System.currentTimeMillis() - then));
         }
     }
 
@@ -165,15 +166,15 @@ public class Simulation {
      * @param generation The generation to cleanse
      */
     private static void naturallySelect(Offspring[] generation) {
-        int length = generation.length - 2;
-        for(int i = 2 + length / 3; i < generation.length; i++)
+        int trimIndex = 2;
+        int bestFitness = generation[0].fitness;
+        for(int i = trimIndex; i < generation.length; i++)
+            if(bestFitness * parentPercentageOverride > generation[i].fitness) {
+                trimIndex = i;
+                break;
+            }
+        for(int i = trimIndex; i < generation.length; i++)
             generation[i].clear();
-        double fit1 = generation[0].fitness;
-        double fit2 = generation[1].fitness;
-        if(fit2/fit1 < parentPercentageOverride) {
-            generation[1].clear().useTraits(generation[0].traits);
-            generation[1].fitness = generation[0].fitness;
-        }
     }
 
     /**

@@ -53,7 +53,7 @@ public class MiniTetris extends JComponent {
         if(bestMove.x >= 0 && bestMove.y >= 0)
             tetris.currentMove = bestMove;
         tetris.tick(TetrisController.DOWN);
-        paint(getGraphics());
+        repaint();
     }
 
     public boolean running() {
