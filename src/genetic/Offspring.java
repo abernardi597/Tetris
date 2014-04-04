@@ -77,7 +77,7 @@ public class Offspring {
     }
 
     public String toString() {
-        return String.format("%d @ %s", fitness, Arrays.toString(traits));
+        return Arrays.toString(traits);
     }
 
     /**
