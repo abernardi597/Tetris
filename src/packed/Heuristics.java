@@ -6,12 +6,15 @@ import java.lang.reflect.Method;
 
 public class Heuristics {
 
-    public static double[] coefficients = new double[] {
+    public final static double[] coefficients = new double[] {
             8, 3, 4, -3, 3, -8, 7, 6, 0, 5, -6, 4, -1, 3, -2, 4, 0, 1
     };
 
     //Included in provided source
-    public static double hueConsecHorzHoles(Board board) {
+    /**
+     * @return The sum of the number of consecutive horizontal holes in each column
+     */
+    public static double hue00ConsecHorzHoles(Board board) {
         final int width = board.getWidth();
         final int maxHeight = board.getMaxHeight();
 
@@ -38,7 +41,10 @@ public class Heuristics {
 
         return holes;
     }
-    public static double hueHeightAvg(Board board) {
+    /**
+     * @return The average height of each column
+     */
+    public static double hue01HeightAvg(Board board) {
         int sumHeight =0;
         //count the holes and sum up the heights
         for(int x=0; x < board.getWidth(); x++)
@@ -49,10 +55,16 @@ public class Heuristics {
 
         return ((double)sumHeight/board.getWidth());
     }
-    public static double hueHeightMax(Board board) {
+    /**
+     * @return The height of the tallest column
+     */
+    public static double hue02HeightMax(Board board) {
         return board.getMaxHeight();
     }
-    public static double hueHeightMinMax(Board board) {
+    /**
+     * @return The difference between the highest and lowest columns
+     */
+    public static double hue03HeightMinMax(Board board) {
         int maxHeight = 0;
         int minHeight = board.getHeight();
 
@@ -71,7 +83,10 @@ public class Heuristics {
 
         return maxHeight - minHeight;
     }
-    public static double hueHeightVar(Board board) {
+    /**
+     * @return The variance of the heights of the columns. This is how spread out the values are
+     */
+    public static double hue04HeightVar(Board board) {
         int sumHeight = 0;
 
         //count the holes and sum up the height
@@ -93,10 +108,16 @@ public class Heuristics {
 
         return varisum / board.getWidth();
     }
-    public static double hueHeightStdDev(Board board) {
-        return Math.sqrt(hueHeightVar(board));
+    /**
+     * @return The standard deviation of the board. This is the square root of the variance
+     */
+    public static double hue05HeightStdDev(Board board) {
+        return Math.sqrt(hue04HeightVar(board));
     }
-    public static double hueSimpleHoles(Board board) {
+    /**
+     * @return The total number of holes in the board
+     */
+    public static double hue06SimpleHoles(Board board) {
         int holes = 0;
         // Count the holes, and sum up the heights
         for (int x=0; x<board.getWidth(); x++) {
@@ -113,7 +134,10 @@ public class Heuristics {
         }
         return holes;
     }
-    public static double hueThreeVariance(Board board) {
+    /**
+     * @return The variance between the variances of each column of three
+     */
+    public static double hue07ThreeVariance(Board board) {
         int w = board.getWidth();
         double runningVarianceSum = 0.0;
         for(int i=0; i<w-2; i++) {
@@ -127,8 +151,10 @@ public class Heuristics {
         }
         return runningVarianceSum / (double)(w-3);
     }
-    public static double hueTrough(Board board) {
-        int[] through = new int [board.getWidth()];
+    /**
+     * @return The number of columns with at leas one block in it
+     */
+    public static double hue08Trough(Board board) {
         int troughCount = 0;
 
         for(int x = 0; x < board.getWidth(); x++)
@@ -136,14 +162,14 @@ public class Heuristics {
             int height = board.getColumnHeight(x);
             //store the hieght for each coloumn
             if(height > 0 && board.getGrid(x, height-1))
-            {
-                through[x]++;
                 troughCount++;
-            }
         }
         return troughCount;
     }
-    public static double hueWeightedHoles(Board board) {
+    /**
+     * @return A weighted value that treats holes near the bottom as a higher penalty than holes near the top
+     */
+    public static double hue09WeightedHoles(Board board) {
         int maxHeight =0;
         int minHeight = board.getHeight();
 
@@ -173,7 +199,10 @@ public class Heuristics {
 
         return weightedHoleCount;
     }
-    public static double hueRowsWithHolesInMostHoledColumn(Board board) {
+    /**
+     * @return The number of holes in the column with the most holes
+     */
+    public static double hue10RowsWithHolesInMostHoledColumn(Board board) {
         //count the holes and sum up the heights
         int mostHolesInAnyColumn = 0;
         for(int x=0; x<board.getWidth(); x++)
@@ -196,7 +225,11 @@ public class Heuristics {
 
         return mostHolesInAnyColumn;
     }
-    public static double hueAverageSquaredTroughHeight(Board board) {
+    /**
+     * @return The Returns the largest number of holes per column. For each column, the number of "holes" (the number of
+     * empty spaces) is counted. The largest sum is returned.
+     */
+    public static double hue11AverageSquaredTroughHeight(Board board) {
         // Count the holes, and sum up the heights
         int mostHolesInAnyColumn = 0;
         for (int x=0; x<board.getWidth(); x++)
@@ -219,7 +252,10 @@ public class Heuristics {
         }
         return mostHolesInAnyColumn;
     }
-    public static double hueBlocksAboveHoles(Board board) {
+    /**
+     * @return The sum of the number of blocks (including holes) above the first "hole" in each column
+     */
+    public static double hue12BlocksAboveHoles(Board board) {
         int w=board.getWidth(), blocksAboveHoles = 0;
         for(int x=0; x<w; x++)
         {
@@ -238,7 +274,11 @@ public class Heuristics {
     }
 
     //Ours
-    public static double hueRowsWithOneHole(Board board) {
+
+    /**
+     * @return The number of rows with only one hole
+     */
+    public static double hue13RowsWithOneHole(Board board) {
         int rowswithone=0;
         for (int y=0; y<board.getHeight(); y++) {
             int holes=0;
@@ -253,7 +293,11 @@ public class Heuristics {
         }
         return rowswithone;
     }
-    public static double hueStairs(Board board) {
+
+    /**
+     * @return The count of the places that form "stairs," as in having a slope of one
+     */
+    public static double hue14Stairs(Board board) {
         int init = 0;
         int stairs = 0;
 
@@ -265,7 +309,11 @@ public class Heuristics {
         }
         return stairs;
     }
-    public static double hueRoughness(Board board) {
+
+    /**
+     * @return How "rough" the board is, or how uneven it looks
+     */
+    public static double hue15Roughness(Board board) {
         int diffHeight = 0;
 
         for (int x = 0; x < (board.getWidth() - 1); x++)
@@ -277,7 +325,11 @@ public class Heuristics {
         //Return sum of difference
         return (diffHeight);
     }
-    public static double hueWeightedHeight(Board board) {
+
+    /**
+     * @return A weighted value based on how the column compares to the shortest and tallest columns
+     */
+    public static double hue16WeightedHeight(Board board) {
         int maxHeight =0;
         int minHeight = board.getHeight();
 
@@ -307,7 +359,11 @@ public class Heuristics {
 
         return weightedHeightCount;
     }
-    public static double hueValleys(Board board) {
+
+    /**
+     * @return The number of spots where only a vertical "I" piece will fit
+     */
+    public static double hue17Valleys(Board board) {
         int vallyNum = 0;
 
         for (int x = 0; x < board.getWidth() - 1;x++)
@@ -333,6 +389,11 @@ public class Heuristics {
         return vallyNum;
     }
 
+    /**
+     * Uses reflection to call each heuristic in this class, then multiply them by their coefficient.
+     * Because it's more fun than just calling them all.
+     * @return The final rating of the Board
+     */
     public static double total(Board board) {
         double sum = 0;
         int heuIndex = 0;
@@ -340,8 +401,12 @@ public class Heuristics {
             //Don't want to call this method again
             if(method.getName().startsWith("hue"))
                 try {
+                    //Call the evaluation method
                     double val = (Double) method.invoke(null, board);
-                    sum += val * coefficients[heuIndex++];
+                    //Coefficient index is in the name.
+                    String co = method.getName().substring(3, 5);
+                    //Multiply by the coefficient, then add it to the running total
+                    sum += val * coefficients[Integer.valueOf(co)];
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -64,6 +64,7 @@ public class Simulation {
             System.out.println("--------------------------------------------------------------");
             System.gc();
         }
+        frame.setVisible(false);
         return generation[0];
     }
 

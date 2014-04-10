@@ -17,7 +17,7 @@ Returns the largest number of holes per column.
 For each column, the number of "holes" (the number of empty spaces) is counted. The largest sum is returned.
 
 #### Blocks Above Holes ####
-Returns the sum of the number of blocks above the first "hole" in each column
+Returns the sum of the number of blocks (including holes) above the first "hole" in each column
 
 #### Consec Horz Holes ####
 Returns the sum of the number of consecutive horizontal holes in each column
@@ -47,7 +47,7 @@ Returns the total number of holes in the board
 Returns the variance between the variances of each column of three
 
 #### Through ####
-Returns the number of columns where any placed piece
+Returns the number of columns with at least one block in it
 
 #### Weighted Holes ####
 Returns a weighted value that treats holes near the bottom as a higher penalty than holes near the top
