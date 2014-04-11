@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 public class Heuristics {
 
     public final static double[] coefficients = new double[] {
-            8, 3, 4, -3, 3, -8, 7, 6, 0, 5, -6, 4, -1, 3, -2, 4, 0, 1
-    };
+            8, 6, 4, -3, 3, -8, 7, 6, 0, 5, -6, 2, -1, 0, -2, 4, 0, 1
+};
 
     //Included in provided source
     /**
