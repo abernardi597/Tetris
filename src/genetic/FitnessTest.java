@@ -103,7 +103,7 @@ public class FitnessTest extends JPanel implements Runnable {
         timeLabel.setText(getTimeString(runtime()));
         countLabel.setText("Pieces: " + tetris.getCount());
         rowLabel.setText("Rows:   " + rowsCleared);
-        averageLabel.setText("Avg:    " + Math.round((float) totalRows / numberTrials));
+        averageLabel.setText("Avg:    " + Math.round((float) totalRows / Math.min(numberTrials, completedTrials + 1)));
         trialLabel.setText("Trial:     " + (completedTrials + 1));
     }
 

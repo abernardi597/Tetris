@@ -4,18 +4,44 @@ import AIHelper.FinalRater;
 import tetris.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.*;
 import java.lang.reflect.Field;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Run {
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("");
+
+        System.out.print("Desired fitness: ");
+        int fitness = scan.nextInt();
+        System.out.print("Generation size: ");
+        int gensize = scan.nextInt();
+        System.out.print("Batch size: ");
+        int batchsize = scan.nextInt();
+        System.out.print("Trials: ");
+        int trials = scan.nextInt();
+        System.out.println("Enter dna for parent 1 (" + Offspring.numTraits + " numbers):");
+        double[] parent1 = new double[Offspring.numTraits];
+        for (int i = 0; i < parent1.length; ++i)
+            parent1[i] = scan.nextDouble();
+        System.out.println("Enter dna for parent 2 (" + Offspring.numTraits + " numbers):");
+        double[] parent2 = new double[Offspring.numTraits];
+        for (int i = 0; i < parent2.length; ++i)
+            parent2[i] = scan.nextDouble();
+        double[] dna = simulate(fitness, gensize, batchsize, trials, parent1, parent2);
+        System.out.println(Arrays.toString(dna));
+        String resp = "";
+        while (!(resp.equals("y") || resp.equals("n"))) {
+            System.out.println("Would you like to run the resultant AI? (y/n)");
+            resp = scan.next();
+        }
+        if (resp.equals("y"))
+            runGui(dna);
     }
 
     public static void runMiniTetris(double... d) {
@@ -32,22 +58,11 @@ public class Run {
         run.start();
     }
 
-    public static void simulateThenGui() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Desired Fitness: ");
-        int fitness = scan.nextInt();
-        System.out.print("Generation Size: ");
-        int genSize = scan.nextInt();
-        System.out.print("Number of Trials: ");
-        FitnessTest.numberTrials = scan.nextInt();
-        double[] dna1 = new double[Offspring.numTraits];
-        double[] dna2 = new double[Offspring.numTraits];
-        for(int i = 0; i < dna1.length; i++)
-            dna1[i] = scan.nextDouble();
-        for(int i = 0; i < dna2.length; i++)
-            dna2[i] = scan.nextDouble();
-        dna1 = Simulation.runSimulation(fitness, genSize, dna1, dna2, new Random()).traits;
-        runGui(dna1);
+    public static double[] simulate(int fitness, int genSize, int batchsize, int trials, double[] dna1, double[] dna2) {
+        FitnessTest.numberTrials = trials;
+        Simulation.batchSize = batchsize;
+        return Simulation.runSimulation(fitness, genSize, dna1, dna2, new Random()).traits;
+        // runGui(dna1);
     }
 
     public static void runNoGui(double... vals) {

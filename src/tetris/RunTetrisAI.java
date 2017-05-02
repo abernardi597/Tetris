@@ -6,8 +6,6 @@
 
 package tetris;
 
-import packed.AAEAI;
-
 import javax.swing.Box;
 
 /**
@@ -19,7 +17,7 @@ public class RunTetrisAI extends RunTetris {
     
 	private static final long serialVersionUID = 1L;
 
-	private AI mBrain = new AAEAI();
+	private AI mBrain = new ITLPAI();
 	private Move mMove;
 	protected javax.swing.Timer timerAI;
 	int current_count = -1;
