@@ -14,9 +14,6 @@ public class Run {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-
-        System.out.println("");
-
         System.out.print("Desired fitness: ");
         int fitness = scan.nextInt();
         System.out.print("Generation size: ");
